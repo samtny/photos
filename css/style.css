@@ -1,0 +1,9 @@
+span.folder-list {
+  cursor: pointer;
+
+}
+
+span.folder-list:hover {
+  background-color: lightblue;
+
+}

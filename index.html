@@ -7,6 +7,7 @@
     <title>Photos</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="css/style.css">
     <script src="js/lib/require.js"></script>
     <script>
       require(['./js/common'], function (common) {
@@ -15,8 +16,23 @@
     </script>
   </head>
   <body data-bind="pageTitle: title">
-    <!-- ko foreach: resources -->
-    <img data-bind="attr: { src: thumb, alt: alt }" class="img" style="width: 100px; height: 100px;" />
-    <!-- /ko -->
+    <div class="container-fluid">
+      <div class="row">
+        <div data-bind="foreach: folders" class="col-xs-3">
+          <!-- ko template: { name: 'folder-template' } --><!-- /ko -->
+        </div>
+        <div data-bind="foreach: resources" class="col-xs-9">
+          <!-- ko template: { name: 'resource-template' } --><!-- /ko -->
+        </div>
+      </div>
+    </div>
   </body>
 </html>
+
+<script type="text/html" id="folder-template">
+  <div class="row"><span data-bind="text: name, css: { 'folder-list': $root.folders_display() == 'list' }"></span></div>
+</script>
+
+<script type="text/html" id="resource-template">
+  <img data-bind="attr: { src: thumb, alt: alt }" class="img" style="width: 100px; height: 100px;" />
+</script>
