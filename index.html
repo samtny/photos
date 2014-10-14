@@ -30,7 +30,15 @@
 </html>
 
 <script type="text/html" id="folder-template">
-  <div class="row"><span data-bind="text: name, css: { 'folder-list': $root.folders_display() == 'list' }"></span></div>
+  <div class="folder">
+  <span class="folder-toggle" data-bind="visible: children().length, text: children().length ? (expanded() ? '-' : '+') : '', event: { click: toggleExpanded }"></span>
+  <span class="folder-name" data-bind="text: name"></span>
+  <div data-bind="visible: expanded">
+    <div class="folder-children" data-bind="foreach: children">
+      <!-- ko template: { name: 'folder-template' } --><!-- /ko -->
+    </div>
+  </div>
+    </div>
 </script>
 
 <script type="text/html" id="resource-template">

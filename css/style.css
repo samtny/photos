@@ -1,9 +1,11 @@
-span.folder-list {
+span.folder-toggle {
   cursor: pointer;
-
 }
 
-span.folder-list:hover {
-  background-color: lightblue;
+span.folder-name {
+  cursor: pointer;
+}
 
+div.folder-children {
+  margin-left: 1em;
 }
