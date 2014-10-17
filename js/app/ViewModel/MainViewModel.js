@@ -8,17 +8,17 @@ define(['jquery', 'underscore', 'knockout', './FolderViewModel', './ResourceView
     main.resources = ko.observableArray([]);
 
     main.addResources = function (data) {
-      console.log('data', data);
       _.each(data, function (item) {
         main.resources.push(new resourceViewModel(item));
       });
     };
 
     main.addFolders = function (data) {
-      console.log('data', data);
       _.each(data, function (item) {
         main.folders.push(new folderViewModel(item));
       })
+
+      console.log('folders', main.folders);
     };
 
     main.getResources = function (parent) {
@@ -39,7 +39,7 @@ define(['jquery', 'underscore', 'knockout', './FolderViewModel', './ResourceView
       $.ajax({
         url: 'https://ec2-54-172-64-205.compute-1.amazonaws.com/folder_list',
         data: {
-          parent: ''
+          parent: parent
         }
       })
         .done(main.addFolders);

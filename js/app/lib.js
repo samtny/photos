@@ -11,4 +11,3 @@ define(['bootstrap', 'jquery', 'knockout'], function (bootstrap, $, ko) {
     }
   }
 });
-
