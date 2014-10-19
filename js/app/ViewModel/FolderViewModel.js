@@ -2,6 +2,7 @@ define(['knockout', 'underscore'], function (ko, _) {
   var folderViewModel = function (data) {
     var folder = this;
 
+    folder.id = ko.observable(data._id.$id);
     folder.name = ko.observable(data.name);
     folder.children = ko.observableArray([]);
     folder.expanded = ko.observable(false);

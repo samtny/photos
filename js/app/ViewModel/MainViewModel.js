@@ -7,6 +7,11 @@ define(['jquery', 'underscore', 'knockout', './FolderViewModel', './ResourceView
     main.folders_display = ko.observable('list');
     main.resources = ko.observableArray([]);
 
+    main.folderClick = function (folder) {
+      main.resources.removeAll();
+      main.getResources({ folder_id: folder.id(), derivative: 'thumb/100x100' });
+    };
+
     main.addResources = function (data) {
       _.each(data, function (item) {
         main.resources.push(new resourceViewModel(item));
@@ -16,38 +21,27 @@ define(['jquery', 'underscore', 'knockout', './FolderViewModel', './ResourceView
     main.addFolders = function (data) {
       _.each(data, function (item) {
         main.folders.push(new folderViewModel(item));
-      })
-
-      console.log('folders', main.folders);
+      });
     };
 
-    main.getResources = function (parent) {
-      parent = parent || '';
-
+    main.getResources = function (data) {
       $.ajax({
         url: 'https://ec2-54-172-64-205.compute-1.amazonaws.com/resource_list',
-        data: {
-          parent: ''
-        }
+        data: data
       })
         .done(main.addResources);
     };
 
-    main.getFolders = function (parent) {
-      parent = parent || '';
-
+    main.getFolders = function (data) {
       $.ajax({
         url: 'https://ec2-54-172-64-205.compute-1.amazonaws.com/folder_list',
-        data: {
-          parent: parent
-        }
+        data: data
       })
         .done(main.addFolders);
     };
 
     main.init = function () {
-      main.getFolders();
-      main.getResources();
+      main.getFolders({ parent: '' });
     };
 
     main.init();
