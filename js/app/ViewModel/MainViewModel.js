@@ -1,11 +1,25 @@
 define(['jquery', 'underscore', 'knockout', './FolderViewModel', './ResourceViewModel'], function ($, _, ko, folderViewModel, resourceViewModel) {
   return function mainViewModel() {
-    var main = this;
+    var main = this,
+      debounceSearch = 500;
 
     main.title = ko.observable('Photos');
+    main.searchValue = ko.observable();
     main.folders = ko.observableArray([]);
     main.folders_display = ko.observable('list');
     main.resources = ko.observableArray([]);
+
+    main.doSearch = function () {
+      main.resources.removeAll();
+      main.getResources({ search: main.searchValue() });
+    };
+
+    main.doSearchDebounced = _.debounce(main.doSearch, debounceSearch);
+
+    main.searchKeyUp = function (unused, e) {
+      main.searchValue(e.currentTarget.value);
+      main.doSearchDebounced();
+    };
 
     main.folderClick = function (folder) {
       main.resources.removeAll();
