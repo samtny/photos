@@ -1,7 +1,7 @@
 define(['jquery', 'underscore', 'knockout', './FolderViewModel', './ResourceViewModel'], function ($, _, ko, folderViewModel, resourceViewModel) {
   return function mainViewModel() {
     var main = this,
-      resourceWidth = 210,
+      resourceWidth = 214,
       debounceSearch = 500,
       debounceLayout = 300;
 
@@ -21,6 +21,10 @@ define(['jquery', 'underscore', 'knockout', './FolderViewModel', './ResourceView
     main.searchKeyUp = function (unused, e) {
       main.searchValue(e.currentTarget.value);
       main.doSearchDebounced();
+    };
+
+    main.resourceClick = function (resource) {
+      resource.selected(!resource.selected());
     };
 
     main.folderClick = function (folder) {

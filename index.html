@@ -81,8 +81,8 @@
 </script>
 
 <script type="text/html" id="resource-template">
-  <div class="resource">
-    <img data-bind="attr: { src: thumb, alt: alt }" class="img" />
+  <div class="resource noselect" data-bind="event: { click: $root.resourceClick }, css: { selected: selected() }">
+    <img data-bind="attr: { src: thumb, alt: alt }" class="img" draggable="false" />
     <span data-bind="text: name"></span>
   </div>
 </script>
