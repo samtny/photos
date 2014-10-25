@@ -1,7 +1,9 @@
 define(['jquery', 'underscore', 'knockout', './FolderViewModel', './ResourceViewModel'], function ($, _, ko, folderViewModel, resourceViewModel) {
   return function mainViewModel() {
     var main = this,
-      debounceSearch = 500;
+      resourceWidth = 210,
+      debounceSearch = 500,
+      debounceLayout = 300;
 
     main.title = ko.observable('Photos');
     main.searchValue = ko.observable();
@@ -54,7 +56,20 @@ define(['jquery', 'underscore', 'knockout', './FolderViewModel', './ResourceView
         .done(main.addFolders);
     };
 
+    main.initLayout = function () {
+      var innerHeight = window.innerHeight,
+        resourcesWrapperWidth = $('.resources-wrapper').width();
+
+      $(".resources-wrapper").height((innerHeight - 72) + 'px');
+      $(".resources").width((Math.floor(resourcesWrapperWidth / resourceWidth) * resourceWidth) + 'px');
+
+      window.onresize = main.initLayoutDebounced;
+    };
+
+    main.initLayoutDebounced = _.debounce(main.initLayout, debounceLayout);
+
     main.init = function () {
+      main.initLayout();
       main.getFolders({ parent: '' });
     };
 

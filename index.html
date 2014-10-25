@@ -53,11 +53,15 @@
     </nav>
     <div class="container-fluid">
       <div class="row">
-        <div data-bind="foreach: folders" class="hidden-xs col-md-3">
-          <!-- ko template: { name: 'folder-template' } --><!-- /ko -->
+        <div class="hidden-xs col-md-2">
+          <div class="folders" data-bind="foreach: folders">
+            <!-- ko template: { name: 'folder-template' } --><!-- /ko -->
+          </div>
         </div>
-        <div data-bind="foreach: resources" class="col-xs-12 col-md-9">
-          <!-- ko template: { name: 'resource-template' } --><!-- /ko -->
+        <div class="resources-wrapper col-xs-12 col-md-10">
+          <div class="resources" data-bind="foreach: resources">
+            <!-- ko template: { name: 'resource-template' } --><!-- /ko -->
+          </div>
         </div>
       </div>
     </div>
@@ -78,7 +82,7 @@
 
 <script type="text/html" id="resource-template">
   <div class="resource">
-    <img data-bind="attr: { src: thumb, alt: alt }" class="img" style="width: 100px; height: auto;" />
+    <img data-bind="attr: { src: thumb, alt: alt }" class="img" />
     <span data-bind="text: name"></span>
   </div>
 </script>
