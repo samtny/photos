@@ -53,15 +53,18 @@
     </nav>
     <div class="container-fluid">
       <div class="row">
-        <div class="hidden-xs col-md-2">
+        <div class="folders-wrapper hidden-xs col-md-2">
           <div class="folders" data-bind="foreach: folders">
             <!-- ko template: { name: 'folder-template' } --><!-- /ko -->
           </div>
         </div>
-        <div class="resources-wrapper col-xs-12 col-md-10">
+        <div class="resources-wrapper col-xs-12" data-bind="css: { 'col-md-4': preview(), 'col-md-10': !preview() }">
           <div class="resources" data-bind="foreach: resources">
             <!-- ko template: { name: 'resource-template' } --><!-- /ko -->
           </div>
+        </div>
+        <div class="preview-wrapper hidden" data-bind="css: { 'col-md-6': preview(), hidden: !preview() }">
+          <!-- ko template: { name: 'preview-template' } --><!-- /ko -->
         </div>
       </div>
     </div>
@@ -82,7 +85,13 @@
 
 <script type="text/html" id="resource-template">
   <div class="resource noselect" data-bind="event: { click: $root.resourceClick }, css: { selected: selected() }">
-    <img data-bind="attr: { src: thumb, alt: alt }" class="img" draggable="false" />
+    <img data-bind="attr: { src: src, alt: alt }" class="img" draggable="false" width="200px" height="200px" />
     <span data-bind="text: name"></span>
+  </div>
+</script>
+
+<script type="text/html" id="preview-template">
+  <div class="preview noselect" data-bind="with: preview">
+    <img data-bind="attr: { src: src, alt: alt }" class="img" draggable="false" />
   </div>
 </script>

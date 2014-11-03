@@ -10,6 +10,7 @@ define(['jquery', 'underscore', 'knockout', './FolderViewModel', './ResourceView
     main.folders = ko.observableArray([]);
     main.folders_display = ko.observable('list');
     main.resources = ko.observableArray([]);
+    main.preview = ko.observable();
 
     main.doSearch = function () {
       main.resources.removeAll();
@@ -25,11 +26,13 @@ define(['jquery', 'underscore', 'knockout', './FolderViewModel', './ResourceView
 
     main.resourceClick = function (resource) {
       resource.selected(!resource.selected());
+      main.preview(new resourceViewModel(resource.data, '722x722'));
+      main.initLayout();
     };
 
     main.folderClick = function (folder) {
       main.resources.removeAll();
-      main.getResources({ folder_id: folder.id(), derivative: 'thumb/100x100' });
+      main.getResources({ folder_id: folder.id() });
     };
 
     main.addResources = function (data) {
@@ -64,16 +67,15 @@ define(['jquery', 'underscore', 'knockout', './FolderViewModel', './ResourceView
       var innerHeight = window.innerHeight,
         resourcesWrapperWidth = $('.resources-wrapper').width();
 
-      $(".resources-wrapper").height((innerHeight - 72) + 'px');
+      $(".folders-wrapper, .resources-wrapper, .preview-wrapper").height((innerHeight - 72) + 'px');
       $(".resources").width((Math.floor(resourcesWrapperWidth / resourceWidth) * resourceWidth) + 'px');
-
-      window.onresize = main.initLayoutDebounced;
     };
 
     main.initLayoutDebounced = _.debounce(main.initLayout, debounceLayout);
 
     main.init = function () {
       main.initLayout();
+      window.onresize = main.initLayoutDebounced;
       main.getFolders({ parent: '' });
     };
 
