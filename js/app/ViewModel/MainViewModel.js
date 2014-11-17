@@ -1,11 +1,12 @@
 define(['jquery', 'underscore', 'knockout', './FolderViewModel', './ResourceViewModel'], function ($, _, ko, folderViewModel, resourceViewModel) {
-  return function mainViewModel() {
+  return function mainViewModel(options) {
     var main = this,
       resourceWidth = 214,
       debounceSearch = 500,
       debounceLayout = 300;
 
     main.title = ko.observable('Photos');
+    main.host = options.host;
     main.searchValue = ko.observable();
     main.folders = ko.observableArray([]);
     main.folders_display = ko.observable('list');
@@ -26,7 +27,7 @@ define(['jquery', 'underscore', 'knockout', './FolderViewModel', './ResourceView
 
     main.resourceClick = function (resource) {
       resource.selected(!resource.selected());
-      main.preview(new resourceViewModel(resource.data, '722x722'));
+      main.preview(new resourceViewModel(resource.data, main.host, '722x722'));
       main.initLayout();
     };
 
@@ -37,7 +38,7 @@ define(['jquery', 'underscore', 'knockout', './FolderViewModel', './ResourceView
 
     main.addResources = function (data) {
       _.each(data, function (item) {
-        main.resources.push(new resourceViewModel(item));
+        main.resources.push(new resourceViewModel(item, main.host));
       });
     };
 
@@ -49,7 +50,7 @@ define(['jquery', 'underscore', 'knockout', './FolderViewModel', './ResourceView
 
     main.getResources = function (data) {
       $.ajax({
-        url: 'https://ec2-54-172-64-205.compute-1.amazonaws.com/resource_list',
+        url: main.host + '/resource_list',
         data: data
       })
         .done(main.addResources);
@@ -57,7 +58,7 @@ define(['jquery', 'underscore', 'knockout', './FolderViewModel', './ResourceView
 
     main.getFolders = function (data) {
       $.ajax({
-        url: 'https://ec2-54-172-64-205.compute-1.amazonaws.com/folder_list',
+        url: main.host + '/folder_list',
         data: data
       })
         .done(main.addFolders);
